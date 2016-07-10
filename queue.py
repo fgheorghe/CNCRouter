@@ -44,10 +44,12 @@ channel.queue_declare(queue='gcode', durable=True, exclusive=False, auto_delete=
 
 # Based on: http://pika.readthedocs.io/en/0.10.0/examples/blocking_consume.html
 def on_message(channel, method_frame, header_frame, body):
+    print "GCode instruction received."
     # Parse GCode instructions.
     GCodeCommandsArray = GCodeStringToCommandArray().convert(body);
     # Execute G Code Instructions
     CNCRouter(OX, OY, OZ).execGCode(GCodeCommandsArray)
+    print "Done."
     # Set message as consumed.
     channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
