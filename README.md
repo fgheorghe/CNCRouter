@@ -1,12 +1,12 @@
 A Python based CNC Router.
 
+Currently supported GCode commands: G1
+
 ###Available commands:
 
 cli.py - used for executing GCode files. For use instructions run python cli.py
 
 queue.py - used for consuming (rabbitmq-)queued GCode files. For use instructions run python queue.py
-
-Currently supported GCode commands: G1
 
 ###Install
 
