@@ -13,7 +13,7 @@ class Nema17:
     ANTICLOCKWISE = False
 
     # Gap in seconds between each step.
-    interval = 0.0016
+    interval = 0.001
 
     # Sets pins for rotation and direction.
     def __init__(self, GPIO, pin_clk, pin_cw):
