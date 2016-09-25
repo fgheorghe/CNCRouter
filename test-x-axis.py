@@ -1,11 +1,6 @@
-import RPi.GPIO as GPIO
-from Nema17 import Nema17
+from CNCRouter import CNCRouter
 
-GPIO.setmode(GPIO.BCM)
+CNCRouter().spin(0b00000001, 10000, 0b00000000);
+CNCRouter().spin(0b00000011, 10000, 0b00000010);
 
-OX = Nema17(GPIO, 6, 18)
-
-OX.spin(200, OX.CLOCKWISE)
-OX.spin(200, OX.ANTICLOCKWISE)
-
-GPIO.cleanup()
+print "done"
