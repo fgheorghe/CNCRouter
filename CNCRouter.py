@@ -8,8 +8,8 @@ class CNCRouter:
     currentOZPosition = 0
 
     # Maximum number of rotations for each axis.
-    OXMAX = 4600
-    OYMAX = 4600
+    OXMAX = 36000
+    OYMAX = 26000
     OZMAX = 2500
 
     DELAY = 0.000005
@@ -49,25 +49,25 @@ class CNCRouter:
     def parseG1Command(self, parameters):
         if parameters['Z'] is not None:
             position = int(parameters['Z'])
-            self.moveZTo(position)
+            self.moveZTo(position * 100)
         if parameters['X'] is not None:
             position = int(parameters['X'])
-            self.moveXTo(position)
+            self.moveXTo(position * 100)
         if parameters['Y'] is not None:
             position = int(parameters['Y'])
-            self.moveYTo(position)
+            self.moveYTo(position * 100)
 
     # Moves axis to a given position.
     def moveXTo(self, position):
         if self.currentOXPosition <= position:
             rotations = position - self.currentOXPosition
             if position <= self.OXMAX:
-                self.spin(self.STEPXCLOCKWISE, rotations, self.STOPXCLOCKWISE)
+                self.spin(self.STEPXANTICLOCKWISE, rotations, self.STOPXANTICLOCKWISE)
                 self.currentOXPosition = position
         elif self.currentOXPosition > position:
             rotations = self.currentOXPosition - position
             if position >= 0:
-                self.spin(self.STEPXANTICLOCKWISE, rotations, self.STOPXANTICLOCKWISE)
+                self.spin(self.STEPXCLOCKWISE, rotations, self.STOPXCLOCKWISE)
                 self.currentOXPosition = position
 
     # Moves Y axis to a given position.
@@ -75,12 +75,12 @@ class CNCRouter:
         if self.currentOYPosition <= position:
             rotations = position - self.currentOYPosition
             if position <= self.OYMAX:
-                self.spin(self.STEPYCLOCKWISE, rotations, self.STOPYCLOCKWISE)
+                self.spin(self.STEPYANTICLOCKWISE, rotations, self.STOPYANTICLOCKWISE)
                 self.currentOYPosition = position
         elif self.currentOYPosition > position:
             rotations = self.currentOYPosition - position
             if position >= 0:
-                self.spin(self.STEPYANTICLOCKWISE, rotations, self.STOPYANTICLOCKWISE)
+                self.spin(self.STEPYCLOCKWISE, rotations, self.STOPYCLOCKWISE)
                 self.currentOYPosition = position
 
     # Moves Z axis to a given position. NOTE: Reverse orders, as this is a different controller.
@@ -102,9 +102,9 @@ class CNCRouter:
             # Reverse order.
             self.spin(self.STEPZCLOCKWISE, self.currentOZPosition, self.STOPZCLOCKWISE)
         if self.currentOXPosition > 0:
-            self.spin(self.STEPXANTICLOCKWISE, self.currentOXPosition, self.STOPXANTICLOCKWISE)
+            self.spin(self.STEPXANTICLOCKWISE, self.currentOXPosition, self.STOPXCLOCKWISE)
         if self.currentOYPosition > 0:
-            self.spin(self.STEPYANTICLOCKWISE, self.currentOYPosition, self.STOPYANTICLOCKWISE)
+            self.spin(self.STEPYCLOCKWISE, self.currentOYPosition, self.STOPYCLOCKWISE)
 
     def spin(self, axis, rotations, stop):
 	for x in range(0, rotations):
