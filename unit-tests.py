@@ -5,7 +5,7 @@ from mock import call
 
 class TestStringMethods(unittest.TestCase):
 
-    def test_constructor(self):
+    def test_motor_constructor(self):
         # Create a fake object, used for emulating the RPI library.
         RPILibraryMock = mock.Mock()
 
@@ -18,7 +18,7 @@ class TestStringMethods(unittest.TestCase):
         # Verify it set-up the pins for output mode.
         RPILibraryMock.setup.assert_has_calls([call(0, 'out'), call(1, 'out')])
 
-    def test_spin(self):
+    def test_motor_spin(self):
     	# Same as above.
         RPILibraryMock = mock.Mock()
         RPILibraryMock.OUT = "out" 
