@@ -5,6 +5,19 @@ from mock import call
 from CNCRouter import CNCRouter
 
 class TestStringMethods(unittest.TestCase):
+    def test_motor_spin_delay(self):
+        # Create a fake GPIO library.
+        RPILibraryMock = mock.Mock()
+        # Create a fake time library.
+        TIMEMock = mock.Mock()
+        # Create the test subject, and inject the fake libraries.
+        motor = Nema17(RPILibraryMock, 0, 1, TIMEMock)
+
+	# Trigger a spin.
+	motor.spin(1, 1)
+
+	# Verify a delay of 0.001 seconds has been applied.
+        TIMEMock.sleep.assert_called_once_with(0.001)
 
     def test_motor_constructor(self):
         # Create a fake object, used for emulating the RPI library.
@@ -15,7 +28,7 @@ class TestStringMethods(unittest.TestCase):
         # A fake 'constant' for setting pin status to out.
         RPILibraryMock.OUT = "out"
 
-        # Create the test subject, and inject the mock library.
+        # Create the test subject, and inject the mock libraries.
         motor = Nema17(RPILibraryMock, 0, 1, TIMEMock)
 
         # Verify it set-up the pins for output mode.
