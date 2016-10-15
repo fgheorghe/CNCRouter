@@ -9,12 +9,14 @@ class TestStringMethods(unittest.TestCase):
     def test_motor_constructor(self):
         # Create a fake object, used for emulating the RPI library.
         RPILibraryMock = mock.Mock()
+        # Create a fake time library.
+        TIMEMock = mock.Mock()
 
         # A fake 'constant' for setting pin status to out.
         RPILibraryMock.OUT = "out"
 
         # Create the test subject, and inject the mock library.
-        motor = Nema17(RPILibraryMock, 0, 1)
+        motor = Nema17(RPILibraryMock, 0, 1, TIMEMock)
 
         # Verify it set-up the pins for output mode.
         RPILibraryMock.setup.assert_has_calls([
@@ -26,7 +28,10 @@ class TestStringMethods(unittest.TestCase):
     	# Same as above.
         RPILibraryMock = mock.Mock()
         RPILibraryMock.OUT = "out" 
-        motor = Nema17(RPILibraryMock, 0, 1)
+        # Create a fake time library.
+        TIMEMock = mock.Mock()
+
+        motor = Nema17(RPILibraryMock, 0, 1, TIMEMock)
 
         # Spin 10 times in direction.
         motor.spin(10, False)

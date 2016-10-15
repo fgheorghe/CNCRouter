@@ -1,5 +1,6 @@
 # Load libraries.
 import pika
+import time
 import pprint
 import sys
 import RPi.GPIO as GPIO
@@ -26,9 +27,9 @@ QUEUE = sys.argv[6]
 GPIO.setmode(GPIO.BCM)
 
 # Create OX and OY axis motor controllers.
-OX = Nema17(GPIO, 6, 18)
-OY = Nema17(GPIO, 13, 17)
-OZ = Nema17(GPIO, 12, 27)
+OX = Nema17(GPIO, 6, 18, time)
+OY = Nema17(GPIO, 13, 17, time)
+OZ = Nema17(GPIO, 12, 27, time)
 
 # Based on: https://www.rabbitmq.com/tutorials/tutorial-one-python.html and https://pika.readthedocs.io/en/0.10.0/intro.html
 # Prepare authentication.
